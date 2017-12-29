@@ -16,10 +16,12 @@ All the configuration of the contracts is done in the file migrations/2_deploy_c
 
 # Installing the required software
 
-The CargoX website is built in Python with the Django framework. In order to develop locally you need to have the following installed:
+In order to develop locally you need to have the following installed:
 
 * Git
 * NodeJS (for compiling contracts)
+* truffle
+* truffle-flattener
 
 ## Install git
 
@@ -63,4 +65,20 @@ To clone the repository execute the following command:
 
 Execute the install command:
 
-    $ node install
+    $ npm install -g truffle
+    $ npm install truffle-flattener -g
+    $ npm install
+
+## Testing environment
+
+Testing is done on ropsten network. Use the following command to deploy to ropsten:
+
+    $ truffle migrate --network ropsten
+
+This repository uses a testing ropsten wallet that can be generated from the mnemonic:
+
+steel caught blur reopen vital agent same enrich future accuse absorb pass
+
+Make sure you set HD PATH to m/44'/60'/0'/0 when working with other wallets (like MyEtherWallet). The first account is the one that is used by truffle.
+
+If the wallet doesn't have any ROPSTEN ETH you can load it by using MetaMask's faucet here (https://faucet.metamask.io/). You'll need to install Metamask (https://metamask.io/) and initialize it with the mnemonic.

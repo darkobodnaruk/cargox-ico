@@ -1,0 +1,27 @@
+{
+  "name": "cargox-ico",
+  "version": "1.0.0",
+  "description": "This repository contains all the contracts required to run the CargoX ICO.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "ethereumjs-abi": "^0.6.4",
+    "truffle-hdwallet-provider": "^0.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gapeslape/cargox-ico.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gapeslape/cargox-ico/issues"
+  },
+  "homepage": "https://github.com/gapeslape/cargox-ico#readme"
+}
