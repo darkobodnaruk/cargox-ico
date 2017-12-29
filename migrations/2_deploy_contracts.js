@@ -27,11 +27,11 @@ const CX_TOKEN_INITIAL_SUPPLY = 0
 const CX_TOKEN_DECIMALS = 8
 
 const CX_MILESTONES = [
-  epoch("2017-11-21 20:00:00.0+1:00"), 293333333333333, // 12 % discount
-  epoch("2017-11-21 21:00:00.0+1:00"), 306666666666666, //  8 % discount
-  epoch("2017-11-21 22:00:00.0+1:00"), 320000000000000, //  4 % discount
-  epoch("2017-11-21 23:00:00.0+1:00"), 333333333333333, //  0 % discount
-  epoch("2017-11-22 00:00:00.0+1:00"), 0, // signifies the end
+  epoch("2017-12-29 16:00:00.0+1:00"), 293333333333333, // 12 % discount
+  epoch("2017-12-29 16:30:00.0+1:00"), 306666666666666, //  8 % discount
+  epoch("2017-12-29 17:00:00.0+1:00"), 320000000000000, //  4 % discount
+  epoch("2017-12-29 17:30:00.0+1:00"), 333333333333333, //  0 % discount
+  epoch("2017-12-29 18:00:00.0+1:00"), 0, // signifies the end
 ]
 
 const CX_CROWDSALE_START = CX_MILESTONES[0]
@@ -87,6 +87,10 @@ module.exports = deployer => {
   .then(() => {
     /* set BonusFinalizeAgent as minting agent */
     return crowdsaleToken.setMintAgent(BonusFinalizeAgent.address, true).then()
+  })
+  .then(() => {
+    /* set BonusFinalizeAgent as release agent */
+    return crowdsaleToken.setReleaseAgent(BonusFinalizeAgent.address, true).then()
   })
   .then(() => {
     return MintedEthCappedCrowdsale.deployed()
