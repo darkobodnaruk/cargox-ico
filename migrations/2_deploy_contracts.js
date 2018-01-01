@@ -24,23 +24,24 @@ const CX_MULTISIG_WALLET_REQ_SIG = 2
 const CX_TOKEN_NAME = "CargoX Token"
 const CX_TOKEN_SYMBOL = "CXO"
 const CX_TOKEN_INITIAL_SUPPLY = 0
-const CX_TOKEN_DECIMALS = 8
+const CX_TOKEN_DECIMALS = 18
 
 const CX_MILESTONES = [
-  epoch("2017-12-29 16:00:00.0+1:00"), 293333333333333, // 12 % discount
-  epoch("2017-12-29 16:30:00.0+1:00"), 306666666666666, //  8 % discount
-  epoch("2017-12-29 17:00:00.0+1:00"), 320000000000000, //  4 % discount
-  epoch("2017-12-29 17:30:00.0+1:00"), 333333333333333, //  0 % discount
-  epoch("2017-12-29 18:00:00.0+1:00"), 0, // signifies the end
+  epoch("2018-01-01 00:00:00.0+1:00"), 293333333333333, // 12 % discount
+  epoch("2018-01-02 00:00:00.0+1:00"), 306666666666666, //  8 % discount
+  epoch("2018-01-03 00:00:00.0+1:00"), 320000000000000, //  4 % discount
+  epoch("2018-01-04 00:30:00.0+1:00"), 333333333333333, //  0 % discount
+  epoch("2018-01-05 00:00:00.0+1:00"), 0, // signifies the end
 ]
 
 const CX_CROWDSALE_START = CX_MILESTONES[0]
 const CX_CROWDSALE_END   = CX_MILESTONES[CX_MILESTONES.length - 2]
 
-const CX_MIN_FUNDING_GOAL = web3.toWei(6000, "ether")
-const CX_MAX_FUNDING_GOAL = web3.toWei(100000, "ether")
+const CX_MIN_FUNDING_GOAL = web3.toWei(20, "ether")
+const CX_MAX_FUNDING_GOAL = web3.toWei(100, "ether")
 
-const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 35/0.0001
+
+const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 5384 // Calculated as (0.35/0.65)*10000 and rounded to int - see BonusFinalizeAgent
 
 function epoch(dateStr) {
   return (new Date(dateStr)).getTime()/1000
@@ -90,7 +91,7 @@ module.exports = deployer => {
   })
   .then(() => {
     /* set BonusFinalizeAgent as release agent */
-    return crowdsaleToken.setReleaseAgent(BonusFinalizeAgent.address, true).then()
+    return crowdsaleToken.setReleaseAgent(BonusFinalizeAgent.address).then()
   })
   .then(() => {
     return MintedEthCappedCrowdsale.deployed()
