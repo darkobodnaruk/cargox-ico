@@ -2,9 +2,6 @@
 
 This repository contains all the contracts required to run the CargoX ICO.
 
-The ICO process is described in this document (ask for permission, if you don't have one):
-https://docs.google.com/document/d/1DKaNiYUL3rMg2GXrqJwO9PD1ZLsxK7PvGRTlf0uXq4c/edit
-
 The contracts were taken from these repositories:
 - https://github.com/gnosis/MultiSigWallet.git (commit c23be004ad993248281805303278abe14c410c8d)
 - https://github.com/OpenZeppelin/zeppelin-solidity.git (commit 99f3e26f83f4628246b48c8b3afa5bb3958f5224)
@@ -74,11 +71,3 @@ Execute the install command:
 Testing is done on ropsten network. Use the following command to deploy to ropsten:
 
     $ truffle migrate --network ropsten
-
-This repository uses a testing ropsten wallet that can be generated from the mnemonic:
-
-steel caught blur reopen vital agent same enrich future accuse absorb pass
-
-Make sure you set HD PATH to m/44'/60'/0'/0 when working with other wallets (like MyEtherWallet). The first account is the one that is used by truffle.
-
-If the wallet doesn't have any ROPSTEN ETH you can load it by using MetaMask's faucet here (https://faucet.metamask.io/). You'll need to install Metamask (https://metamask.io/) and initialize it with the mnemonic.

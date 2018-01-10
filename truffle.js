@@ -1,6 +1,7 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
 // USE THIS HD PATH in myetherwallet.com: m/44'/60'/0'/0
+// For testing on Ropsten network and local network.
 var mnemonic = 'steel caught blur reopen vital agent same enrich future accuse absorb pass'
 
 module.exports = {

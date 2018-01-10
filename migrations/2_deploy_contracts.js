@@ -27,18 +27,18 @@ const CX_TOKEN_INITIAL_SUPPLY = 0
 const CX_TOKEN_DECIMALS = 18
 
 const CX_MILESTONES = [
-  epoch("2018-01-01 00:00:00.0+1:00"), 293333333333333, // 12 % discount
-  epoch("2018-01-02 00:00:00.0+1:00"), 306666666666666, //  8 % discount
-  epoch("2018-01-03 00:00:00.0+1:00"), 320000000000000, //  4 % discount
-  epoch("2018-01-04 00:30:00.0+1:00"), 333333333333333, //  0 % discount
-  epoch("2018-01-05 00:00:00.0+1:00"), 0, // signifies the end
+  epoch("2018-02-08 08:00:00.0+1:00"), 88000000000000, // 12 % discount
+  epoch("2018-02-10 08:00:00.0+1:00"), 92000000000000, //  8 % discount
+  epoch("2018-02-17 08:00:00.0+1:00"), 96000000000000, //  4 % discount
+  epoch("2018-02-24 08:00:00.0+1:00"), 100000000000000, //  0 % discount
+  epoch("2018-03-04 20:00:00.0+1:00"), 0, // signifies the end
 ]
 
 const CX_CROWDSALE_START = CX_MILESTONES[0]
 const CX_CROWDSALE_END   = CX_MILESTONES[CX_MILESTONES.length - 2]
 
-const CX_MIN_FUNDING_GOAL = web3.toWei(20, "ether")
-const CX_MAX_FUNDING_GOAL = web3.toWei(100, "ether")
+const CX_MIN_FUNDING_GOAL = web3.toWei(2000, "ether")
+const CX_MAX_FUNDING_GOAL = web3.toWei(7000, "ether")
 
 
 const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 5384 // Calculated as (0.35/0.65)*10000 and rounded to int - see BonusFinalizeAgent
