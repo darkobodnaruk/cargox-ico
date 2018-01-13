@@ -119,6 +119,15 @@ contract Crowdsale is CrowdsaleBase {
    * Invest to tokens, recognize the payer.
    *
    */
+  function buyWithCustomerIdWithChecksum(uint128 customerId, bytes1 checksum) public payable {
+    // see customerid.py
+    if (bytes1(sha3(customerId)) != checksum) throw;
+    investWithCustomerId(msg.sender, customerId);
+  }
+
+  /**
+   * Legacy API signature.
+   */
   function buyWithCustomerId(uint128 customerId) public payable {
     investWithCustomerId(msg.sender, customerId);
   }
@@ -130,10 +139,6 @@ contract Crowdsale is CrowdsaleBase {
    */
   function buy() public payable {
     invest(msg.sender);
-  }
-
-  function() payable {
-    buy();
   }
 
   /**

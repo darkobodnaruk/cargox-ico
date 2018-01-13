@@ -3,9 +3,8 @@
 This repository contains all the contracts required to run the CargoX ICO.
 
 The contracts were taken from these repositories:
-- https://github.com/gnosis/MultiSigWallet.git (commit c23be004ad993248281805303278abe14c410c8d)
-- https://github.com/OpenZeppelin/zeppelin-solidity.git (commit 99f3e26f83f4628246b48c8b3afa5bb3958f5224)
-- https://github.com/TokenMarketNet/ico.git (commit 481b02204f86260090392384d29c6b915c72311c)
+- https://github.com/OpenZeppelin/zeppelin-solidity.git (commit 287b873add003494828c143f74f631224aa219f4)
+- https://github.com/TokenMarketNet/ico.git (commit c0d9f11e76d0f34ff4c5bc0772be85ade20d2ac0)
 
 All the repositories are included as a tar file for future reference (see cargox-repos.tar.gz).
 

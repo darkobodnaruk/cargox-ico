@@ -145,19 +145,12 @@ contract CrowdsaleBase is Haltable {
     minimumFundingGoal = _minimumFundingGoal;
   }
 
-
-
   /**
    * Don't expect to just send in money and get tokens.
    */
-
-  // WARNING: this is the only modification we  made to the TokenMarket.net contracts.
-  // The function below is commmented out and we added the function on Crowdsale level
-  // that allows sending money directyl to the contract.
-
-  //function() payable {
-  //  throw;
-  //}
+  function() payable {
+    throw;
+  }
 
   /**
    * Make an investment.
