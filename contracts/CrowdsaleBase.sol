@@ -101,7 +101,7 @@ contract CrowdsaleBase is Haltable {
   event Refund(address investor, uint weiAmount);
 
   // The rules were changed what kind of investments we accept
-  event InvestmentPolicyChanged(bool newRequireCustomerId, bool newRequiredSignedAddress, address newSignerAddress);
+  event InvestmentPolicyChanged(bool newRequireCustomerId, bool newRequiredSignedAddress, bool newRequireWhitelistedAddress, address newSignerAddress, address whitelisterAddress);
 
   // Address early participation whitelist status changed
   event Whitelisted(address addr, bool status);

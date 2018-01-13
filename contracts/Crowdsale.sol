@@ -44,6 +44,16 @@ contract Crowdsale is CrowdsaleBase {
   /* Server side address that signed allowed contributors (Ethereum addresses) that can participate the crowdsale */
   address public signerAddress;
 
+  /* Do we need to have unique contributor id for each customer */
+  bool public requireWhitelistedAddress;
+
+  /* Account that is allowed to whitelist addesses */
+  address public whitelisterAddress;
+
+  /* Mapping of whitelisted accounts */
+  mapping (address => bool) whitelist;
+
+
   function Crowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal) CrowdsaleBase(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal) {
   }
 
@@ -83,16 +93,24 @@ contract Crowdsale is CrowdsaleBase {
    * Allow anonymous contributions to this crowdsale.
    */
   function investWithSignedAddress(address addr, uint128 customerId, uint8 v, bytes32 r, bytes32 s) public payable {
-     bytes32 hash = sha256(addr);
-     if (ecrecover(hash, v, r, s) != signerAddress) throw;
-     if(customerId == 0) throw;  // UUIDv4 sanity check
-     investInternal(addr, customerId);
+    if(requireWhitelistedAddress) {
+      require(whitelist[addr]);
+    }
+
+    bytes32 hash = sha256(addr);
+    if (ecrecover(hash, v, r, s) != signerAddress) throw;
+    if(customerId == 0) throw;  // UUIDv4 sanity check
+    investInternal(addr, customerId);
   }
 
   /**
    * Track who is the customer making the payment so we can send thank you email.
    */
   function investWithCustomerId(address addr, uint128 customerId) public payable {
+    if(requireWhitelistedAddress) {
+      require(whitelist[addr]);
+    }
+
     if(requiredSignedAddress) throw; // Crowdsale allows only server-side signed participants
     if(customerId == 0) throw;  // UUIDv4 sanity check
     investInternal(addr, customerId);
@@ -102,6 +120,10 @@ contract Crowdsale is CrowdsaleBase {
    * Allow anonymous contributions to this crowdsale.
    */
   function invest(address addr) public payable {
+    if(requireWhitelistedAddress) {
+      require(whitelist[addr]);
+    }
+
     if(requireCustomerId) throw; // Crowdsale needs to track participants for thank you email
     if(requiredSignedAddress) throw; // Crowdsale allows only server-side signed participants
     investInternal(addr, 0);
@@ -141,13 +163,23 @@ contract Crowdsale is CrowdsaleBase {
     invest(msg.sender);
   }
 
+
+  /*
+   * Allow sending ETH directyl to the contract
+   *
+   */
+  function () public payable {
+    buy();
+  }
+
+
   /**
    * Set policy do we need to have server-side customer ids for the investments.
    *
    */
   function setRequireCustomerId(bool value) onlyOwner {
     requireCustomerId = value;
-    InvestmentPolicyChanged(requireCustomerId, requiredSignedAddress, signerAddress);
+    InvestmentPolicyChanged(requireCustomerId, requiredSignedAddress, requireWhitelistedAddress, signerAddress, whitelisterAddress);
   }
 
   /**
@@ -159,7 +191,37 @@ contract Crowdsale is CrowdsaleBase {
   function setRequireSignedAddress(bool value, address _signerAddress) onlyOwner {
     requiredSignedAddress = value;
     signerAddress = _signerAddress;
-    InvestmentPolicyChanged(requireCustomerId, requiredSignedAddress, signerAddress);
+    InvestmentPolicyChanged(requireCustomerId, requiredSignedAddress, requireWhitelistedAddress, signerAddress, whitelisterAddress);
+  }
+
+  /**
+   * Set policy do we need to work only with whitelisted accounts.
+   *
+   */
+  function setRequireWhitelistedAddress(bool value, address _whitelistAddress) onlyOwner {
+    requireWhitelistedAddress = value;
+    whitelisterAddress = _whitelistAddress;
+    InvestmentPolicyChanged(requireCustomerId, requiredSignedAddress, requireWhitelistedAddress, signerAddress, whitelisterAddress);
+  }
+
+  /*
+   * Add KYC'ed addresses to the whitelist
+   */
+  function addToWhitelist(address[] _addresses) public isWhitelister {
+     for (uint32 i = 0; i < _addresses.length; i++) {
+         whitelist[_addresses[i]] = true;
+     }
+  }
+
+  function removeFromWhitelist(address[] _addresses) public isWhitelister {
+    for (uint32 i = 0; i < _addresses.length; i++) {
+        whitelist[_addresses[i]] = false;
+    }
+  }
+
+  modifier isWhitelister() {
+    require(msg.sender == whitelisterAddress);
+    _;
   }
 
 }
