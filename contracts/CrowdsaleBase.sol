@@ -43,6 +43,9 @@ contract CrowdsaleBase is Haltable {
   /* if the funding goal is not reached, investors may withdraw their funds */
   uint public minimumFundingGoal;
 
+  /* maximum investment per address */
+  uint public maximalInvestment;
+
   /* the UNIX timestamp start date of the crowdsale */
   uint public startsAt;
 
@@ -111,7 +114,7 @@ contract CrowdsaleBase is Haltable {
 
   State public testState;
 
-  function CrowdsaleBase(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal) {
+  function CrowdsaleBase(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _maxInvestment) {
 
     owner = msg.sender;
 
@@ -143,6 +146,8 @@ contract CrowdsaleBase is Haltable {
 
     // Minimum funding goal can be zero
     minimumFundingGoal = _minimumFundingGoal;
+
+    maximalInvestment = _maxInvestment;
   }
 
   /**
@@ -194,6 +199,11 @@ contract CrowdsaleBase is Haltable {
 
     // Update investor
     investedAmountOf[receiver] = investedAmountOf[receiver].plus(weiAmount);
+
+    if(maximalInvestment > 0) {
+      require(investedAmountOf[receiver] <= maximalInvestment);
+    }
+
     tokenAmountOf[receiver] = tokenAmountOf[receiver].plus(tokenAmount);
 
     // Update totals

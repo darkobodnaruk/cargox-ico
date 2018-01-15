@@ -21,7 +21,7 @@ contract MintedEthCappedCrowdsale is Crowdsale {
   /* Maximum amount of wei this crowdsale can raise. */
   uint public weiCap;
 
-  function MintedEthCappedCrowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _weiCap) Crowdsale(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal) {
+  function MintedEthCappedCrowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _weiCap, uint _maxInvestment) Crowdsale(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal, _maxInvestment) {
     weiCap = _weiCap;
   }
 

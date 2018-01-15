@@ -1,3 +1,7 @@
+/**
+ * Copyright 2018 CargoX.io (https://cargox.io)
+ *
+ */
 pragma solidity ^0.4.8;
 
 import "./MintedEthCappedCrowdsale.sol";
@@ -11,9 +15,15 @@ import "./MintedEthCappedCrowdsale.sol";
  */
 contract CargoXCrowdsale is MintedEthCappedCrowdsale {
 
-  function CargoXCrowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _weiCap) MintedEthCappedCrowdsale(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal, _weiCap) {
+  function CargoXCrowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _weiCap, uint _maxInvestment) MintedEthCappedCrowdsale(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal, _weiCap, _maxInvestment) {
 
   }
+
+  // Crowdsale minimum funding goal changed
+  event MaximalInvestmentChanged(uint maximalInvestment);
+
+  // Crowdsale minimum funding goal changed
+  event MinimumFundingGoalChanged(uint newMinimumFundingGoal);
 
   // Crowdsale cap has been changed
   event WeiCapChanged(uint newWeiCap);
@@ -28,6 +38,24 @@ contract CargoXCrowdsale is MintedEthCappedCrowdsale {
   function setWeiCap(uint _weiCap) onlyOwner inState(State.PreFunding) {
     weiCap = _weiCap;
     WeiCapChanged(weiCap);
+  }
+
+  /**
+   * Allow crowdsale owner to change minimum funding goal in pre funding stage.
+   *
+   */
+  function setMinimumFundingGoal(uint _minimumFundingGoal) onlyOwner inState(State.PreFunding) {
+    minimumFundingGoal = _minimumFundingGoal;
+    MinimumFundingGoalChanged(minimumFundingGoal);
+  }
+
+  /**
+   * Allow crowdsale owner to change minimum funding goal in pre funding stage.
+   *
+   */
+  function setMaximalInvestment(uint _maxInvestment) onlyOwner inState(State.PreFunding) {
+    maximalInvestment = _maxInvestment;
+    MaximalInvestmentChanged(maximalInvestment);
   }
 
   /**

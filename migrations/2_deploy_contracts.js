@@ -6,7 +6,7 @@ const web3 = new Web3()
 /* Contracts */
 const MultiSigWallet = artifacts.require('MultiSigWallet.sol')
 const SafeMathLib = artifacts.require('SafeMathLib.sol')
-const CrowdsaleToken = artifacts.require('CrowdsaleToken.sol')
+const CargoXToken = artifacts.require('CargoXToken.sol')
 const MilestonePricing = artifacts.require('MilestonePricing.sol')
 const CargoXCrowdsale = artifacts.require('CargoXCrowdsale.sol')
 const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
@@ -27,11 +27,11 @@ const CX_TOKEN_INITIAL_SUPPLY = 0
 const CX_TOKEN_DECIMALS = 18
 
 const CX_MILESTONES = [
-  epoch("2018-02-08 08:00:00.0+1:00"), 88000000000000, // 12 % discount
-  epoch("2018-02-10 08:00:00.0+1:00"), 92000000000000, //  8 % discount
-  epoch("2018-02-17 08:00:00.0+1:00"), 96000000000000, //  4 % discount
-  epoch("2018-02-24 08:00:00.0+1:00"), 100000000000000, //  0 % discount
-  epoch("2018-03-04 20:00:00.0+1:00"), 0, // signifies the end
+  epoch("2018-01-23 15:00:00.0+1:00"), 90000000000000, // 10 % discount
+  epoch("2018-01-25 15:00:00.0+1:00"), 93000000000000, //  7 % discount
+  epoch("2018-02-01 15:00:00.0+1:00"), 97000000000000, //  3 % discount
+  epoch("2018-02-08 15:00:00.0+1:00"), 100000000000000, //  0 % discount
+  epoch("2018-02-15 15:00:00.0+1:00"), 0, // signifies the end
 ]
 
 const CX_CROWDSALE_START = CX_MILESTONES[0]
@@ -40,71 +40,80 @@ const CX_CROWDSALE_END   = CX_MILESTONES[CX_MILESTONES.length - 2]
 const CX_MIN_FUNDING_GOAL = web3.toWei(2000, "ether")
 const CX_MAX_FUNDING_GOAL = web3.toWei(7000, "ether")
 
+const CX_MAX_INVESTMENT = web3.toWei(50, "ether")
 
-const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 5384 // Calculated as (0.35/0.65)*10000 and rounded to int - see BonusFinalizeAgent
+const CX_WHITELIST_ADDRESS = "0x6f9Fb8BE7758BAa1E40aEc36dAaAaf0D08dfd6A2"
+
+const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 15000 // Calculated as (0.60/0.40)*10000 and rounded to int - see BonusFinalizeAgent
 
 function epoch(dateStr) {
   return (new Date(dateStr)).getTime()/1000
 }
 
 module.exports = deployer => {
-  var crowdsaleToken
+  var cargoXToken;
+  var cargoXCrowdsale;
 
   deployer.deploy(SafeMathLib)
-  deployer.link(SafeMathLib, [CrowdsaleToken, MilestonePricing, CargoXCrowdsale, BonusFinalizeAgent])
+  deployer.link(SafeMathLib, [CargoXToken, MilestonePricing, CargoXCrowdsale, BonusFinalizeAgent])
 
   deployer.deploy([
     [MultiSigWallet, CX_MULTISIG_WALLET_OWNERS, CX_MULTISIG_WALLET_REQ_SIG],
-    [CrowdsaleToken, CX_TOKEN_NAME, CX_TOKEN_SYMBOL, CX_TOKEN_INITIAL_SUPPLY, CX_TOKEN_DECIMALS, true],
+    [CargoXToken, CX_TOKEN_NAME, CX_TOKEN_SYMBOL, CX_TOKEN_INITIAL_SUPPLY, CX_TOKEN_DECIMALS, true],
     [MilestonePricing, CX_MILESTONES]
   ])
   .then(() => {
 
     return deployer.deploy(CargoXCrowdsale,
-      CrowdsaleToken.address,
+      CargoXToken.address,
       MilestonePricing.address,
       MultiSigWallet.address,
       CX_CROWDSALE_START,
       CX_CROWDSALE_END,
       CX_MIN_FUNDING_GOAL,
-      CX_MAX_FUNDING_GOAL).then()
+      CX_MAX_FUNDING_GOAL,
+      CX_MAX_INVESTMENT).then()
   })
   .then(() => {
 
     return deployer.deploy(BonusFinalizeAgent,
-      CrowdsaleToken.address,
+      CargoXToken.address,
       CargoXCrowdsale.address,
       CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL,
       MultiSigWallet.address).then()
   })
   .then(() => {
-    return CrowdsaleToken.deployed()
+    return CargoXToken.deployed()
   })
   .then((instance) => {
-    crowdsaleToken = instance
+    cargoXToken = instance
     /* set CargoXCrowdsale as minting agent */
-    return crowdsaleToken.setMintAgent(CargoXCrowdsale.address, true).then()
+    return cargoXToken.setMintAgent(CargoXCrowdsale.address, true).then()
   })
   .then(() => {
     /* set BonusFinalizeAgent as minting agent */
-    return crowdsaleToken.setMintAgent(BonusFinalizeAgent.address, true).then()
+    return cargoXToken.setMintAgent(BonusFinalizeAgent.address, true).then()
   })
   .then(() => {
     /* set BonusFinalizeAgent as release agent */
-    return crowdsaleToken.setReleaseAgent(BonusFinalizeAgent.address).then()
+    return cargoXToken.setReleaseAgent(BonusFinalizeAgent.address).then()
   })
   .then(() => {
     return CargoXCrowdsale.deployed()
   })
   .then((instance) => {
+    cargoXCrowdsale = instance;
     /* set BonusFinalizeAgent as finalize agent on CargoXCrowdsale */
-    return instance.setFinalizeAgent(BonusFinalizeAgent.address).then()
+    return cargoXCrowdsale.setFinalizeAgent(BonusFinalizeAgent.address).then()
+  })
+  .then(() => {
+    return cargoXCrowdsale.setRequireWhitelistedAddress(true, CX_WHITELIST_ADDRESS)
   })
   .then(() => {
     console.log("\n\nSuccesfully setup CargoX TGE.")
 
     console.log(
-      "-- CrowdsaleToken: " + CrowdsaleToken.address + "\n" +
+      "-- CargoXToken: " + CargoXToken.address + "\n" +
       "-- CargoXCrowdsale: " + CargoXCrowdsale.address + "\n" +
       "\n"
     )

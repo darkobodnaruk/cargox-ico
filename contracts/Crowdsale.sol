@@ -54,7 +54,7 @@ contract Crowdsale is CrowdsaleBase {
   mapping (address => bool) whitelist;
 
 
-  function Crowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal) CrowdsaleBase(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal) {
+  function Crowdsale(address _token, PricingStrategy _pricingStrategy, address _multisigWallet, uint _start, uint _end, uint _minimumFundingGoal, uint _maxInvestment) CrowdsaleBase(_token, _pricingStrategy, _multisigWallet, _start, _end, _minimumFundingGoal, _maxInvestment) {
   }
 
   /**
@@ -207,19 +207,23 @@ contract Crowdsale is CrowdsaleBase {
   /*
    * Add KYC'ed addresses to the whitelist
    */
-  function addToWhitelist(address[] _addresses) public isWhitelister {
+  function addToWhitelist(address[] _addresses) public onlyWhitelister {
      for (uint32 i = 0; i < _addresses.length; i++) {
          whitelist[_addresses[i]] = true;
      }
   }
 
-  function removeFromWhitelist(address[] _addresses) public isWhitelister {
+  function removeFromWhitelist(address[] _addresses) public onlyWhitelister {
     for (uint32 i = 0; i < _addresses.length; i++) {
         whitelist[_addresses[i]] = false;
     }
   }
 
-  modifier isWhitelister() {
+  function isWhitelistedAddress(address _address) public constant returns(bool whitelisted) {
+    return whitelist[_address];
+  }
+
+  modifier onlyWhitelister() {
     require(msg.sender == whitelisterAddress);
     _;
   }

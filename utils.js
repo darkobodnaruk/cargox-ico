@@ -28,9 +28,9 @@ function calculateWeiPrice(basePrice, discount) {
 }
 
 calculateWeiPrice(10000, 0.15)
-calculateWeiPrice(10000, 0.12)
-calculateWeiPrice(10000, 0.08)
-calculateWeiPrice(10000, 0.04)
+calculateWeiPrice(10000, 0.10)
+calculateWeiPrice(10000, 0.07)
+calculateWeiPrice(10000, 0.03)
 calculateWeiPrice(10000, 0)
 
 module.exports = {
