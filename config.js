@@ -30,8 +30,8 @@ const CX_MILESTONES = [
 const CX_CROWDSALE_START = CX_MILESTONES[0]
 const CX_CROWDSALE_END   = CX_MILESTONES[CX_MILESTONES.length - 2]
 
-const CX_MIN_FUNDING_GOAL = web3.toWei(2000, "ether")
-const CX_MAX_FUNDING_GOAL = web3.toWei(7000, "ether")
+const CX_MIN_FUNDING_GOAL = web3.toWei(1500, "ether")
+const CX_MAX_FUNDING_GOAL = web3.toWei(6000, "ether")
 
 const CX_MAX_INVESTMENT = web3.toWei(5, "ether")
 

@@ -13,5 +13,13 @@ const CargoXCrowdsale = artifacts.require('CargoXCrowdsale.sol')
 const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
 
 module.exports = deployer => {
-  deployer.deploy(MultiSigWallet, config.CX_MULTISIG_WALLET_OWNERS, config.CX_MULTISIG_WALLET_REQ_SIG)
+  deployer.deploy(CargoXCrowdsale,
+      CargoXToken.address,
+      MilestonePricing.address,
+      MultiSigWallet.address,
+      config.CX_CROWDSALE_START,
+      config.CX_CROWDSALE_END,
+      config.CX_MIN_FUNDING_GOAL,
+      config.CX_MAX_FUNDING_GOAL,
+      config.CX_MAX_INVESTMENT)
 }

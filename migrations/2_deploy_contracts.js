@@ -15,10 +15,4 @@ const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
 module.exports = deployer => {
   deployer.deploy(SafeMathLib)
   deployer.link(SafeMathLib, [CargoXToken, MilestonePricing, CargoXCrowdsale, BonusFinalizeAgent])
-
-  deployer.deploy([
-    [MultiSigWallet, config.CX_MULTISIG_WALLET_OWNERS, config.CX_MULTISIG_WALLET_REQ_SIG],
-    [CargoXToken, config.CX_TOKEN_NAME, config.CX_TOKEN_SYMBOL, config.CX_TOKEN_INITIAL_SUPPLY, config.CX_TOKEN_DECIMALS, true],
-    [MilestonePricing, config.CX_MILESTONES]
-  ])
 }
