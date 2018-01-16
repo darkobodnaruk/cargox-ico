@@ -13,5 +13,6 @@ const CargoXCrowdsale = artifacts.require('CargoXCrowdsale.sol')
 const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
 
 module.exports = deployer => {
+  deployer.link(SafeMathLib, [CargoXToken])
   deployer.deploy(CargoXToken, config.CX_TOKEN_NAME, config.CX_TOKEN_SYMBOL, config.CX_TOKEN_INITIAL_SUPPLY, config.CX_TOKEN_DECIMALS, true)
 }
