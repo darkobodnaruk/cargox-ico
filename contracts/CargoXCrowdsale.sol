@@ -1,6 +1,7 @@
 /**
  * Copyright 2018 CargoX.io (https://cargox.io)
  *
+ * Licensed under the Apache License, version 2.0: https://github.com/TokenMarketNet/ico/blob/master/LICENSE.txt
  */
 pragma solidity ^0.4.8;
 
@@ -19,8 +20,11 @@ contract CargoXCrowdsale is MintedEthCappedCrowdsale {
 
   }
 
-  // Crowdsale minimum funding goal changed
+  // Crowdsale maximum investment per account changed
   event MaximalInvestmentChanged(uint maximalInvestment);
+
+  // Crowdsale maximum investment time treshold changed
+  event MaximalInvestmentTimeTresholdChanged(uint maximalInvestmentTimeTreshold);
 
   // Crowdsale minimum funding goal changed
   event MinimumFundingGoalChanged(uint newMinimumFundingGoal);
@@ -50,7 +54,7 @@ contract CargoXCrowdsale is MintedEthCappedCrowdsale {
   }
 
   /**
-   * Allow crowdsale owner to change minimum funding goal in pre funding stage.
+   * Allow crowdsale owner to change maximal investment per address in pre funding stage.
    *
    */
   function setMaximalInvestment(uint _maxInvestment) onlyOwner inState(State.PreFunding) {
@@ -59,14 +63,19 @@ contract CargoXCrowdsale is MintedEthCappedCrowdsale {
   }
 
   /**
+   * Allow crowdsale owner to change maximal investment time treshold in pre funding stage.
+   *
+   */
+  function setMaximalInvestmentTimeTreshold(uint _maximalInvestmentTimeTreshold) onlyOwner inState(State.PreFunding) {
+    maximalInvestmentTimeTreshold = _maximalInvestmentTimeTreshold;
+    MaximalInvestmentTimeTresholdChanged(_maximalInvestmentTimeTreshold);
+  }
+
+  /**
    * Allow crowdsale owner to change starts at in pre funding phase.
    *
    */
   function setStartsAt(uint time) onlyOwner inState(State.PreFunding) {
-
-    if(now > time) {
-      throw; // Don't change past
-    }
 
     startsAt = time;
     StartsAtChanged(startsAt);

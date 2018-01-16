@@ -44,7 +44,10 @@ contract CrowdsaleBase is Haltable {
   uint public minimumFundingGoal;
 
   /* maximum investment per address */
-  uint public maximalInvestment;
+  uint public maximalInvestment = 0;
+
+  /* Seconds since the start of the funding during which the maximalInvestemnt cap is enforced */
+  uint public maximalInvestmentTimeTreshold = 3*60*60;
 
   /* the UNIX timestamp start date of the crowdsale */
   uint public startsAt;
@@ -200,7 +203,7 @@ contract CrowdsaleBase is Haltable {
     // Update investor
     investedAmountOf[receiver] = investedAmountOf[receiver].plus(weiAmount);
 
-    if(maximalInvestment > 0) {
+    if(maximalInvestment > 0 && now < (startsAt + maximalInvestmentTimeTreshold)) {
       require(investedAmountOf[receiver] <= maximalInvestment);
     }
 

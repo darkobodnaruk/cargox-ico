@@ -19,15 +19,15 @@ module.exports = deployer => {
   CargoXToken.deployed().then((instance) => {
     cargoXToken = instance
     /* set CargoXCrowdsale as minting agent */
-    return cargoXToken.setMintAgent(CargoXCrowdsale.address, true).then()
+    return cargoXToken.setMintAgent(CargoXCrowdsale.address, true)
   })
   .then(() => {
     /* set BonusFinalizeAgent as minting agent */
-    return cargoXToken.setMintAgent(BonusFinalizeAgent.address, true).then()
+    return cargoXToken.setMintAgent(BonusFinalizeAgent.address, true)
   })
   .then(() => {
     /* set BonusFinalizeAgent as release agent */
-    return cargoXToken.setReleaseAgent(BonusFinalizeAgent.address).then()
+    return cargoXToken.setReleaseAgent(BonusFinalizeAgent.address)
   })
   .then(() => {
     return CargoXCrowdsale.deployed()
@@ -35,7 +35,7 @@ module.exports = deployer => {
   .then((instance) => {
     cargoXCrowdsale = instance;
     /* set BonusFinalizeAgent as finalize agent on CargoXCrowdsale */
-    return cargoXCrowdsale.setFinalizeAgent(BonusFinalizeAgent.address).then()
+    return cargoXCrowdsale.setFinalizeAgent(BonusFinalizeAgent.address)
   })
   .then(() => {
     return cargoXCrowdsale.setRequireWhitelistedAddress(true, config.CX_WHITELIST_ADDRESS)
