@@ -6,11 +6,13 @@ const web3 = new Web3()
 // mnemonic defined in truffle.js. For production real addresses
 // need to be specified.
 const CX_MULTISIG_WALLET_OWNERS = [
-  "0x6f9Fb8BE7758BAa1E40aEc36dAaAaf0D08dfd6A2",
-  "0x523426947e88f45b756e7adc806E1E38BAeb2F3F",
-  "0x0C8Ea0876ef4E29Fcb2428B5aA21d4761C92bbD4"
+  "0x3a8527653CFf3DFD74F7868107C2043227f3E454",
+  "0xD1DBB8b1dEdf2a400c1e1668307547f1F49832A1",
+  "0xcD9864CCc5511C58dC7d2C58cF1d20B6e7cda69d",
+  "0xaB31Db568E6f9BfAC0645899bfc3D7bF752b9551",
+  "0x952236565805E3fd9CB04db4C171791ab11e11F6"
 ]
-const CX_MULTISIG_WALLET_REQ_SIG = 2
+const CX_MULTISIG_WALLET_REQ_SIG = 3
 
 const CX_TOKEN_NAME = "CargoX Token"
 const CX_TOKEN_SYMBOL = "CXO"
@@ -31,9 +33,9 @@ const CX_CROWDSALE_END   = CX_MILESTONES[CX_MILESTONES.length - 2]
 const CX_MIN_FUNDING_GOAL = web3.toWei(2000, "ether")
 const CX_MAX_FUNDING_GOAL = web3.toWei(7000, "ether")
 
-const CX_MAX_INVESTMENT = web3.toWei(50, "ether")
+const CX_MAX_INVESTMENT = web3.toWei(5, "ether")
 
-const CX_WHITELIST_ADDRESS = "0x6f9Fb8BE7758BAa1E40aEc36dAaAaf0D08dfd6A2"
+const CX_WHITELIST_ADDRESS = "0x3a8527653CFf3DFD74F7868107C2043227f3E454"
 
 const CX_TEAM_TOKENS_AS_PERCENT_OF_TOTAL = 15000 // Calculated as (0.60/0.40)*10000 and rounded to int - see BonusFinalizeAgent
 
