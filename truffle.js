@@ -9,7 +9,8 @@ module.exports = {
     development: {
       network_id: "*", // Match any network id
       host: "127.0.0.1",
-      port: 7545
+      port: 7545,
+      gas: 4700000,
       //provider: function() {
       //  return new HDWalletProvider(mnemonic, "http://localhost:8545")
       //},
@@ -18,8 +19,14 @@ module.exports = {
       provider: function() {
         return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/wBLWLKZB4cMRI44jyIju")
       },
-      gas: 4500000,
+      gas: 4700000,
       network_id: 3
+    }
+  },
+  solc: {
+    optimizer: {
+      enabled: true,
+      runs: 200
     }
   }
 };

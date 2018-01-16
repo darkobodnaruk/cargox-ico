@@ -13,12 +13,13 @@ const CargoXCrowdsale = artifacts.require('CargoXCrowdsale.sol')
 const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
 
 module.exports = deployer => {
-  deployer.deploy(SafeMathLib)
-  deployer.link(SafeMathLib, [CargoXToken, MilestonePricing, CargoXCrowdsale, BonusFinalizeAgent])
-
-  deployer.deploy([
-    [MultiSigWallet, config.CX_MULTISIG_WALLET_OWNERS, config.CX_MULTISIG_WALLET_REQ_SIG],
-    [CargoXToken, config.CX_TOKEN_NAME, config.CX_TOKEN_SYMBOL, config.CX_TOKEN_INITIAL_SUPPLY, config.CX_TOKEN_DECIMALS, true],
-    [MilestonePricing, config.CX_MILESTONES]
-  ])
+  deployer.deploy(CargoXCrowdsale,
+      CargoXToken.address,
+      MilestonePricing.address,
+      MultiSigWallet.address,
+      config.CX_CROWDSALE_START,
+      config.CX_CROWDSALE_END,
+      config.CX_MIN_FUNDING_GOAL,
+      config.CX_MAX_FUNDING_GOAL,
+      config.CX_MAX_INVESTMENT)
 }
