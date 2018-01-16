@@ -13,6 +13,6 @@ const CargoXCrowdsale = artifacts.require('CargoXCrowdsale.sol')
 const BonusFinalizeAgent = artifacts.require('BonusFinalizeAgent.sol')
 
 module.exports = deployer => {
-  deployer.link(SafeMathLib, [MilestonePricing)
+  deployer.link(SafeMathLib, [MilestonePricing])
   deployer.deploy(MilestonePricing, config.CX_MILESTONES)
 }
