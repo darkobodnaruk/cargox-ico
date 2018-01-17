@@ -11,6 +11,7 @@ module.exports = {
       host: "127.0.0.1",
       port: 7545,
       gas: 4700000,
+      gasPrice: 45000000000
       //provider: function() {
       //  return new HDWalletProvider(mnemonic, "http://localhost:8545")
       //},
@@ -20,7 +21,16 @@ module.exports = {
         return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/wBLWLKZB4cMRI44jyIju")
       },
       gas: 4700000,
+      gasPrice: 45000000000,
       network_id: 3
+    },
+    live: {
+      provider: function() {
+        return new HDWalletProvider("", "https://mainnet.infura.io/wBLWLKZB4cMRI44jyIju")
+      },
+      gas: 4700000,
+      gasPrice: 55000000000,
+      network_id: 1
     }
   },
   solc: {

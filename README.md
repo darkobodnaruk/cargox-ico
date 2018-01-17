@@ -10,6 +10,16 @@ All the repositories are included as a tar file for future reference (see cargox
 
 All the configuration of the contracts is done in the file migrations/2_deploy_contracts.js.
 
+# Bug bounty program
+
+CargoX has reserved a good portion of it's funds for our bug bounty program.
+
+Please disclose any security holes to security@cargox.io. This is our promise to you:
+
+* We will financially reward disclosures (up to 50 ETH per disclosure).
+* We will keep you updated on the status of your submission.
+* We will not take legal action against you.     
+
 # Installing the required software
 
 In order to develop locally you need to have the following installed:
