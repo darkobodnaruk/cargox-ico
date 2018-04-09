@@ -31,6 +31,14 @@ module.exports = {
       gas: 4700000,
       gasPrice: 55000000000,
       network_id: 1
+    },
+    ganache: {
+      network_id: "*", // Match any network id
+      host: "127.0.0.1",
+      // port: 4545, // ganache-cli from tokenmarket's Docker
+      port: 7545,
+      gas: 4700000,
+      gasPrice: 45000000000
     }
   },
   solc: {
